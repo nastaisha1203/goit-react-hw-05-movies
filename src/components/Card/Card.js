@@ -1,8 +1,9 @@
 import { Box, List } from './Card.styled';
+import PropTypes from 'prop-types';
 
-const Card = ({
-  movie: { title, overview, poster_path, vote_average, genres, release_date },
-}) => {
+const Card = ({ movie }) => {
+  const { title, overview, poster_path, vote_average, genres, release_date } =
+    movie;
   const releaseDate = release_date.slice(0, 4);
   const voteAverage = Math.round(vote_average * 10);
   const url =
@@ -29,3 +30,13 @@ const Card = ({
   );
 };
 export default Card;
+Card.propTypes = {
+  movie: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    overview: PropTypes.string.isRequired,
+    poster_path: PropTypes.string,
+    vote_average: PropTypes.number.isRequired,
+    genres: PropTypes.array.isRequired,
+    release_date: PropTypes.string.isRequired,
+  }).isRequired,
+};

@@ -7,6 +7,7 @@ import {
 } from './Searchbar.styled';
 import { BsSearch } from 'react-icons/bs';
 import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
 
 const Searchbar = ({ onSubmit }) => {
   const [searhQuery, setSearchQuery] = useState('');
@@ -37,3 +38,7 @@ const Searchbar = ({ onSubmit }) => {
 };
 
 export default Searchbar;
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};

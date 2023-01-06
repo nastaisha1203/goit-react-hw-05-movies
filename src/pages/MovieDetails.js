@@ -1,21 +1,19 @@
 import Card from 'components/Card/Card';
-import { useEffect, useState } from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Suspense, useEffect, useState } from 'react';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { fetchMoviesId } from 'services/api';
-import styled from 'styled-components';
-
-const Text = styled.p`
-  text-align: center;
-  font-size: 18px;
-  font-weight: 500;
-  color: red;
-`;
+import { Text } from 'components/Layout/Layout.styled';
+import BackLink from 'components/BackLink/BackLink';
+import { Loader } from 'components/Loader/Loader';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const location = useLocation();
+
+  const backLinkHref = location.state?.from ?? '/';
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -35,19 +33,26 @@ const MovieDetails = () => {
 
   return (
     <div>
-      {isLoading && <div>LOADING...</div>}
+      {isLoading && <Loader />}
       {error && <Text>Something went wrong. Try again.</Text>}
+      <BackLink to={backLinkHref}>Go back</BackLink>
       {movie && <Card movie={movie} />}
       <p>Additional information</p>
       <ul>
         <li>
-          <Link to="cast">Cast</Link>
+          <Link to="cast" state={{ from: backLinkHref }}>
+            Cast
+          </Link>
         </li>
         <li>
-          <Link to="reviews">Reviews</Link>
+          <Link to="reviews" state={{ from: backLinkHref }}>
+            Reviews
+          </Link>
         </li>
       </ul>
-      <Outlet />
+      <Suspense fallback={<div>Loading page...</div>}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
 
 export const Box = styled.main`
   padding: 16px;
@@ -11,7 +10,7 @@ export const List = styled.ul`
   gap: 30px;
   justify-content: center;
 `;
-export const Link = styled(NavLink)`
+export const Item = styled.li`
   width: 200px;
   text-decoration: none;
   color: black;

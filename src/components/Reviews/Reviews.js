@@ -1,3 +1,4 @@
+import { Loader } from 'components/Loader/Loader';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchReviews } from 'services/api';
@@ -25,7 +26,7 @@ const Reviews = () => {
   }, [movieId]);
   return (
     <div>
-      {isLoading && <div>LOADING...</div>}
+      {isLoading && <Loader />}
       {error && <p>Something went wrong. Try again.</p>}
       <ul>
         {reviews.length === 0 ? (

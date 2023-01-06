@@ -5,13 +5,14 @@ import { useSearchParams } from 'react-router-dom';
 import { fetchSearch } from 'services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Loader } from 'components/Loader/Loader';
 
 const Movies = () => {
   const [searchMovie, setSearchMovie] = useState([]);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const query = searchParams.get('query' ?? '');
+  const query = searchParams.get('query') ?? '';
 
   useEffect(() => {
     if (!query) {
@@ -38,11 +39,10 @@ const Movies = () => {
   const onSubmit = value => {
     setSearchParams(value !== '' ? { query: value } : {});
   };
-  console.log(searchMovie);
   return (
     <>
       <Searchbar onSubmit={onSubmit} />
-      {isLoading && <div>LOADING...</div>}
+      {isLoading && <Loader />}
       {error && <p>Search result not successful.</p>}
       <ToastContainer position="top-left" />
       {searchMovie.length > 0 && <GalleryList gallery={searchMovie} />}
